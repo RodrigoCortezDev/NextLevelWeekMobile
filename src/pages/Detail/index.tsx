@@ -24,27 +24,43 @@ interface IData {
 }
 
 const Detail = () => {
+	//======================
+	// ESTADO E CONSTANTES
+	//======================
+	//Estados ncessários
 	const [data, setData] = useState<IData>({} as IData);
 
+	//Constantes para Navegação
 	const navigation = useNavigation();
 	const route = useRoute();
 
+	//Parametros vindo da outra tela
 	const routeParams = route.params as IParams;
 
+	//======================
+	// HOOKS
+	//======================
+	//Carrega os dados do ponto passado por parametro da outra tela
 	useEffect(() => {
 		api.get(`points/${routeParams.point_id}`).then(response => {
 			setData(response.data);
 		});
 	}, []);
 
+	//======================
+	// FUNÇÔES
+	//======================
+	//Volta a tela anterior
 	function handleNavigationBack() {
 		navigation.goBack();
 	}
 
+	//Ao clicar no botão para whats usa esse link para mandar abrir no whats
 	function handleWhatsApp() {
 		Linking.openURL(`whatsapp://send?phone=${data.point.whatsapp}&text=Interesse na coleta de serviço`);
 	}
 
+	//Essa esse pacote para abrir o email ja com os dados preenchidos
 	function handleComposeMail() {
 		MailComposer.composeAsync({
 			subject: 'Interesse na coleta de residuos',
@@ -52,10 +68,14 @@ const Detail = () => {
 		});
 	}
 
+	//Caso não tenha carregado ainda os dados não exibir nada
 	if (!data.point) {
 		return null;
 	}
 
+	//======================
+	// RENDER
+	//======================
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<View style={styles.container}>

@@ -28,22 +28,33 @@ interface IParams {
 }
 
 const Points = () => {
+	//======================
+	// ESTADO E CONSTANTES
+	//======================
+	//Estados ncessários
 	const [items, setItems] = useState<IItems[]>([]);
 	const [selectedItems, setSelectedItems] = useState<number[]>([]);
 	const [points, setPoints] = useState<IPoint[]>([]);
 	const [initialPosition, setInitialPosition] = useState<[number, number]>([0, 0]);
 
+	//Constantes para Navegação
 	const navigation = useNavigation();
 	const routes = useRoute();
 
+	//Parametros vindo da outra tela
 	const routesParams = routes.params as IParams;
 
+	//======================
+	// HOOKS
+	//======================
+	//Carrega os possiveis items para poder selecionar e encontrar os pontos de coleta
 	useEffect(() => {
 		api.get('items').then(response => {
 			setItems(response.data);
 		});
 	}, []);
 
+	//Ao carregar a tela já acessa a localização para centralizar o mapa
 	useEffect(() => {
 		async function loadPosition() {
 			const { status } = await Location.requestPermissionsAsync();
@@ -60,6 +71,7 @@ const Points = () => {
 		loadPosition();
 	}, []);
 
+	//A cada seleção de itens pesquisa novamente os pontos com os dados informados
 	useEffect(() => {
 		api.get('points', {
 			params: {
@@ -72,14 +84,20 @@ const Points = () => {
 		});
 	}, [selectedItems]);
 
+	//======================
+	// FUNÇÔES
+	//======================
+	//Volta a tela anterior
 	function handleNavigationBack() {
 		navigation.goBack();
 	}
 
+	//Avança para a tela do detalhe ao clicar na marker do mapa
 	function handleNavigateToDetail(id: number) {
 		navigation.navigate('Detail', { point_id: id });
 	}
 
+	//Faz a jogada com as seleções dos itens e com cada alteração ja realiza o hook para pesquisar os pontos de coleta
 	function handleSelectItem(id: number) {
 		//Verifica se o item clicado já estava selecionado
 		const itemJaSelecionado = selectedItems.findIndex(item => item === id);
@@ -94,6 +112,9 @@ const Points = () => {
 		}
 	}
 
+	//======================
+	// RENDER
+	//======================
 	return (
 		<>
 			<View style={styles.container}>

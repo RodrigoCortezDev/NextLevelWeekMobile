@@ -5,16 +5,27 @@ import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 
 const Home = () => {
+	//======================
+	// ESTADO E CONSTANTES
+	//======================
 	const [uf, setUF] = useState('');
 	const [city, setCity] = useState('');
 
 	const navigation = useNavigation();
 
+	//======================
+	// FUNÇÕES
+	//======================
+	//Realiza a navegação passadndo a cidade e a uf como parametro
 	function handleNavigationToPoints() {
 		navigation.navigate('Points', { uf, city });
 	}
 
+	//======================
+	// RENDER
+	//======================
 	return (
+		//Faz com que o ao abrir o teclado o conteudo seja ajustando para cima
 		<KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
 			<ImageBackground
 				style={styles.container}
