@@ -1,0 +1,18 @@
+ - Trabalhando com Fontes (por exemplo ubuntu e Roboto):
+    -> expo install expo-font @expo-google-fonts/ubuntu @expo-google-fonts/roboto
+
+ - Para que o expo aceite SVG
+    -> expo install react-native-svg
+
+ - Para que conseguimos usar algumas constantes nativas (fazer com que pegue o tamanho da statusBar por exemplo)
+    -> expo install expo-constants
+
+ - Trabalhando com mapas no expo:
+    -> expo install react-native-maps
+
+ - Geolocalização no expo:
+    -> expo install expo-location
+
+ - Trabalhar com e-mail
+    -> expo install expo-mail-composer
+

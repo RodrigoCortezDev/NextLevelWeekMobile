@@ -1,13 +1,64 @@
-import React from 'react';
-import { Image, View, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { Text, Image, View, ImageBackground, StyleSheet, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { Feather as Icon } from '@expo/vector-icons';
+import { RectButton } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 const Home = () => {
+	const [uf, setUF] = useState('');
+	const [city, setCity] = useState('');
+
+	const navigation = useNavigation();
+
+	function handleNavigationToPoints() {
+		navigation.navigate('Points', { uf, city });
+	}
+
 	return (
-		<>
-			<View style={styles.container}>
-				<Image source={require('../../assets/logo.png')} />
-			</View>
-		</>
+		<KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+			<ImageBackground
+				style={styles.container}
+				resizeMode="contain"
+				source={require('../../assets/home-background.png')}
+				imageStyle={{ width: 274, height: 368 }}
+			>
+				<View style={styles.main}>
+					<Image source={require('../../assets/logo.png')} />
+					<View>
+						<Text style={styles.title}>Seu Marketplace de coleta de residuos</Text>
+						<Text style={styles.description}>Ajudamos pessoas a encontrarem pontos de coletas eficientes.</Text>
+					</View>
+				</View>
+
+				<View style={styles.footer}>
+					<TextInput
+						value={uf}
+						onChangeText={setUF}
+						maxLength={2}
+						autoCapitalize="characters"
+						autoCorrect={false}
+						style={styles.input}
+						placeholder="Digite o UF"
+					/>
+					<TextInput
+						value={city}
+						onChangeText={setCity}
+						style={styles.input}
+						autoCorrect={false}
+						placeholder="Digite a Cidade"
+					/>
+
+					<RectButton style={styles.button} onPress={handleNavigationToPoints}>
+						<View style={styles.buttonIcon}>
+							<Text>
+								<Icon name="arrow-right" color="#fff" size={24} />
+							</Text>
+						</View>
+						<Text style={styles.buttonText}>Entrar</Text>
+					</RectButton>
+				</View>
+			</ImageBackground>
+		</KeyboardAvoidingView>
 	);
 };
 
@@ -67,9 +118,11 @@ const styles = StyleSheet.create({
 	buttonIcon: {
 		height: 60,
 		width: 60,
-		backgroundColor: 'rgba(0, 0, 0, 0.1)',
+		backgroundColor: 'rgba(0, 0, 0, 0.05)',
 		justifyContent: 'center',
 		alignItems: 'center',
+		borderTopLeftRadius: 10,
+		borderBottomLeftRadius: 10,
 	},
 
 	buttonText: {
